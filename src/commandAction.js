@@ -1,7 +1,9 @@
 import { chat } from "./waitUntilJob";
+import log from './log';
 
 async function handleCommand(ctx, command, data)
 {
+    log(command);
     switch (command) {
         case "ping":
             return {
@@ -20,7 +22,6 @@ async function handleCommand(ctx, command, data)
         case "chat":
             const contents = data.data.options[0].value;
             ctx.waitUntil(chat(contents, data));
-
             return { type: 5 };
     }
 }
