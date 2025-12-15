@@ -1,17 +1,19 @@
 import { chat as aiChat } from "./ai";
 import log from './log';
+import { isAdmin } from "./sqlite";
 
-async function chat(contents, data)
-{
+// 和 groq 聊天
+async function chat(data) {
+    const contents = data.data.options[0].value;
     const aiReply  = await aiChat(contents);
-    const followupUrl = `https://discord.com/api/v10/webhooks/${data.application_id}/${data.token}`;
+    const replyUrl = getReplyUrl(data);
 
     const messages = splitMessage(aiReply, 2000);
     for (const msg of messages) {
         // 增加速率限制避免被當作 DDos
         await new Promise(r => setTimeout(r, 350));
         try {
-            const response = await fetch(followupUrl, {
+            const response = await fetch(replyUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -24,6 +26,44 @@ async function chat(contents, data)
     }
 }
 
+// 取得 log 列表
+async function getLogs(data) {
+    try {
+        const discordId = data.member.user.id;
+
+        // todo: 新增 log 至 KV
+        let contents = "<No Permission>";
+        if (await isAdmin(discordId)) {
+            contents = "<log list>";
+        }
+
+        const replyUrl = getReplyUrl(data);
+        const response = await fetch(replyUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                content: contents
+            }),
+        });
+    } catch(error) {
+        log(error)
+    }
+}
+
+function getReplyUrl(data) {
+    return `https://discord.com/api/v10/webhooks/${data.application_id}/${data.token}`;
+}
+
+/**
+ * 拆分訊息
+ * 
+ * 避免超過 discord 的單個回覆 2000 字的上限；且會依照 \n 去做貪婪拆分：
+ * 多行累加未超過 2000 則可以一併回傳
+ * 
+ * @param {String} text 
+ * @param {Integer} limit 
+ * @returns 
+ */
 function splitMessage(text, limit = 2000) {
     const parts = text.split("\n");
     const result = [];
@@ -63,5 +103,7 @@ function splitMessage(text, limit = 2000) {
     return result;
 }
 
-
-export { chat }
+export {
+    chat,
+    getLogs
+}

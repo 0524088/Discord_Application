@@ -20,7 +20,21 @@
 	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
 	 * databases, object storage, AI inference, real-time communication and more.
 	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
-	 */
+     */
+    "kv_namespaces": [
+        {
+            "binding": "KV",
+            "id": "6c7f874e892a4b5f97f60f6d7c395a47",
+            "preview_id": "5d787d51fe2f4472b025b4ab09729334"
+        }
+    ],
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "cloudflare_test",
+            "database_id": "e2e8397c-c162-46da-9e3c-d1c071ea98bc"
+        }
+    ]
 	/**
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
