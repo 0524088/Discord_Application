@@ -24,6 +24,7 @@ async function chat(contents) {
             ]
         });
         const reply = response.choices[0].message.content;
+        console.log("AI has replied");
         log(reply);
         return reply;
     } catch(error) {
