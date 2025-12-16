@@ -1,6 +1,6 @@
 import { chat as aiChat } from "./ai";
 import log from './log';
-import { isAdmin } from "./sqlite";
+import { isAdmin } from "./db/adminRepo";
 
 // 和 groq 聊天
 async function chat(data) {
@@ -17,7 +17,8 @@ async function chat(data) {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    content: msg
+                    content: msg,
+                    flags: 64
                 }),
             });
         } catch(error) {
@@ -42,7 +43,8 @@ async function getLogs(data) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                content: contents
+                content: contents,
+                flags: 64
             }),
         });
     } catch(error) {

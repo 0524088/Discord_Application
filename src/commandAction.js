@@ -6,11 +6,21 @@ async function handleCommand(ctx, command, data) {
     switch (command) {
         case "chat":
             ctx.waitUntil(chat(data));
-            return { type: 5 };
+            return getLoadingMessage();
         
         case "view_log":
             ctx.waitUntil(getLogs(data));
-            return { type: 5 };
+            return getLoadingMessage();
+    }
+}
+
+function getLoadingMessage()
+{
+    return {
+        type: 5,
+        data: {
+            flags: 64
+        }
     }
 }
 
