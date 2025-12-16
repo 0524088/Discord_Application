@@ -29,7 +29,7 @@ export const commands = [
         ]
     },
     {
-        name: "view_log",
+        name: "log",
         description: "check current log list",
         default_member_permissions: 8,
     }

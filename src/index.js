@@ -1,5 +1,5 @@
 import nacl from "tweetnacl";
-import { handleCommand } from "./commandAction";
+import { handleCommand } from "./command/commandAction";
 import { setEnv } from "./workerEnv";
 
 export default {

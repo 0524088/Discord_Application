@@ -1,5 +1,5 @@
-import { chat, getLogs } from "./waitUntilJob";
-import log from './log';
+import { chat, getLogs } from "../waitUntilJob";
+import log from '../log';
 
 async function handleCommand(ctx, command, data) {
     log(command);
@@ -8,7 +8,7 @@ async function handleCommand(ctx, command, data) {
             ctx.waitUntil(chat(data));
             return getLoadingMessage();
         
-        case "view_log":
+        case "view log":
             ctx.waitUntil(getLogs(data));
             return getLoadingMessage();
     }
