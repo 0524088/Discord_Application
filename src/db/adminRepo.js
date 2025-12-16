@@ -1,4 +1,4 @@
-import { getEnv } from "./workerEnv";
+import { getEnv } from "../workerEnv";
 
 async function isAdmin(discrodId) {
     // return example: { "found": 1 }
